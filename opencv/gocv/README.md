@@ -1,1 +1,1 @@
-# Hello, gocv Blog
+# Hello, gocv
