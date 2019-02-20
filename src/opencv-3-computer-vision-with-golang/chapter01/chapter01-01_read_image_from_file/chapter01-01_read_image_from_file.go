@@ -6,10 +6,6 @@ import (
 	"gocv.io/x/gocv"
 )
 
-type aa struct {
-	ab int
-}
-
 func main() {
 	imageFilePath := "../../data/Lena.png"
 	img := gocv.IMRead(imageFilePath, gocv.IMReadAnyColor)
