@@ -12,6 +12,10 @@ func main() {
 	for {
 		webcam.Read(&img)
 		window.IMShow(img)
-		window.WaitKey(1)
+
+		key := window.WaitKey(3)
+		if key == 27 {
+			break
+		}
 	}
 }
