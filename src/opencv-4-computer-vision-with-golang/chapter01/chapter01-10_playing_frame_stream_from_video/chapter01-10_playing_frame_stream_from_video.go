@@ -34,6 +34,7 @@ func main() {
 	err = capture.Close()
 	if err != nil {
 		log.Panic("Can not close Camera")
+		return
 	}
 
 	err = window.Close()
