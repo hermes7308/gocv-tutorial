@@ -49,4 +49,21 @@ func main() {
 			break
 		}
 	}
+
+	err = capture.Close()
+	if err != nil {
+		log.Panic("Can not close camera")
+		return
+	}
+
+	err = videoWriter.Close()
+	if err != nil {
+		log.Panic("Can not close video writer")
+		return
+	}
+
+	err = window.Close()
+	if err != nil {
+		log.Panic("Can not close window")
+	}
 }
