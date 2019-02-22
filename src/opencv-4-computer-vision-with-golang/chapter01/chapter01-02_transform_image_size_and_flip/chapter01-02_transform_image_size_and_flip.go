@@ -19,9 +19,9 @@ func main() {
 
 	width, height := 0.25, 0.5
 
-	resizedImage := gocv.NewMat()
-	gocv.Resize(mat, &resizedImage, image.Point{X: 0, Y: 0}, width, height, gocv.InterpolationNearestNeighbor)
-	log.Println("original image size:", resizedImage.Size())
+	resizeImage := gocv.NewMat()
+	gocv.Resize(mat, &resizeImage, image.Point{X: 0, Y: 0}, width, height, gocv.InterpolationNearestNeighbor)
+	log.Println("original image size:", resizeImage.Size())
 
 	flippedImage := gocv.NewMat()
 	// Flip flips a 2D array around horizontal(0), vertical(1), or both axes(-1)

@@ -31,7 +31,7 @@ func printCaptureProperties(param interface{}) error {
 	case string:
 		capture, err = gocv.VideoCaptureFile(param.(string))
 	default:
-		return errors.New(fmt.Sprintf("%v is not supported type", param))
+		return errors.New(fmt.Sprintf("%v is not supported type(%T)", param, param))
 	}
 
 	if err != nil {
