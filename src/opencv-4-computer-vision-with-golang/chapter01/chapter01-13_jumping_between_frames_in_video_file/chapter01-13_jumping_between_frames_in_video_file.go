@@ -11,6 +11,7 @@ func main() {
 		log.Panic("Can not find video")
 		return
 	}
+	defer capture.Close()
 
 	frameCount := capture.Get(gocv.VideoCaptureFrameCount)
 	log.Println("Frame Count:", frameCount)
@@ -18,8 +19,13 @@ func main() {
 	log.Println("Position:", int(capture.Get(gocv.VideoCapturePosFrames)))
 
 	window1 := gocv.NewWindow("Window1")
+	defer window1.Close()
+
 	window2 := gocv.NewWindow("Window2")
+	defer window2.Close()
+
 	window3 := gocv.NewWindow("Window3")
+	defer window3.Close()
 
 	mat := gocv.NewMat()
 
@@ -60,28 +66,5 @@ func main() {
 			log.Println("Pressed ESC")
 			break
 		}
-	}
-
-	err = capture.Close()
-	if err != nil {
-		log.Panic("Can not close Camera")
-		return
-	}
-
-	err = window1.Close()
-	if err != nil {
-		log.Panic("Can not close Window1")
-		return
-	}
-
-	err = window2.Close()
-	if err != nil {
-		log.Panic("Can not close Window1")
-		return
-	}
-
-	err = window3.Close()
-	if err != nil {
-		log.Panic("Can not close Window1")
 	}
 }

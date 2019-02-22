@@ -11,8 +11,11 @@ func main() {
 		log.Panic("Can not find video")
 		return
 	}
+	defer capture.Close()
 
 	window := gocv.NewWindow("Video")
+	defer window.Close()
+
 	mat := gocv.NewMat()
 
 	for {
@@ -29,16 +32,5 @@ func main() {
 			break
 		}
 
-	}
-
-	err = capture.Close()
-	if err != nil {
-		log.Panic("Can not close Camera")
-		return
-	}
-
-	err = window.Close()
-	if err != nil {
-		log.Panic("Can not close Window")
 	}
 }

@@ -11,8 +11,11 @@ func main() {
 		log.Panic("Can not find Camera...")
 		return
 	}
+	defer capture.Close()
 
 	window := gocv.NewWindow("Camera")
+	defer window.Close()
+
 	mat := gocv.NewMat()
 
 	for {
@@ -23,15 +26,5 @@ func main() {
 		if key == 27 {
 			break
 		}
-	}
-
-	err = capture.Close()
-	if err != nil {
-		log.Panic("Can not close Camera")
-	}
-
-	err = window.Close()
-	if err != nil {
-		log.Panic("Can not close Window")
 	}
 }

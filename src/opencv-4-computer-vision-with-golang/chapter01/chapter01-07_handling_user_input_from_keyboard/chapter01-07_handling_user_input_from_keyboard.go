@@ -22,6 +22,8 @@ func main() {
 	}
 
 	window := gocv.NewWindow("Handling user input from keyboard")
+	defer window.Close()
+
 	width, height = mat.Rows(), mat.Cols()
 
 	matCopied := gocv.NewMat()

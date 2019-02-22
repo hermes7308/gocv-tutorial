@@ -11,6 +11,7 @@ func main() {
 		log.Panic("Can not find capture source")
 		return
 	}
+	defer capture.Close()
 
 	frameWidth := int(capture.Get(gocv.VideoCaptureFrameWidth))
 	frameHeight := int(capture.Get(gocv.VideoCaptureFrameHeight))
@@ -23,8 +24,11 @@ func main() {
 		log.Panic("Can not open video writer")
 		return
 	}
+	defer videoWriter.Close()
 
 	window := gocv.NewWindow("Frame")
+	defer window.Close()
+
 	mat := gocv.NewMat()
 
 	for {
@@ -48,22 +52,5 @@ func main() {
 			log.Println("Pressed ESC")
 			break
 		}
-	}
-
-	err = capture.Close()
-	if err != nil {
-		log.Panic("Can not close camera")
-		return
-	}
-
-	err = videoWriter.Close()
-	if err != nil {
-		log.Panic("Can not close video writer")
-		return
-	}
-
-	err = window.Close()
-	if err != nil {
-		log.Panic("Can not close window")
 	}
 }

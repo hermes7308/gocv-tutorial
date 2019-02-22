@@ -8,23 +8,23 @@ import (
 
 func main() {
 	imageFilePath := "../../data/Lena.png"
-	img := gocv.IMRead(imageFilePath, gocv.IMReadAnyColor)
-	if img.Empty() {
+	mat := gocv.IMRead(imageFilePath, gocv.IMReadAnyColor)
+	if mat.Empty() {
 		log.Panic("Can not read Image file : ", imageFilePath)
 		return
 	}
 
 	log.Println("read", imageFilePath)
-	log.Println("size:", img.Size())
-	log.Println("type:", img.Type())
+	log.Println("size:", mat.Size())
+	log.Println("type:", mat.Type())
 
-	img = gocv.IMRead(imageFilePath, gocv.IMReadGrayScale)
-	if &img == nil {
+	mat = gocv.IMRead(imageFilePath, gocv.IMReadGrayScale)
+	if &mat == nil {
 		log.Panic("Can not read Image file : ", imageFilePath)
 		return
 	}
 
 	log.Println("read", imageFilePath)
-	log.Println("size:", img.Size())
-	log.Println("type:", img.Type())
+	log.Println("size:", mat.Size())
+	log.Println("type:", mat.Type())
 }

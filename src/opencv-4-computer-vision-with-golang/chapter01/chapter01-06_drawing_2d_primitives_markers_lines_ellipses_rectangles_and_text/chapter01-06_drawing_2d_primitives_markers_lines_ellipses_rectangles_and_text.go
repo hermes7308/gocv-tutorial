@@ -23,6 +23,8 @@ func main() {
 	}
 
 	window := gocv.NewWindow("Drawing")
+	defer window.Close()
+
 	width, height = mat.Rows(), mat.Cols()
 
 	// Circle

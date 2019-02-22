@@ -8,6 +8,8 @@ import (
 
 func main() {
 	windowForTrackbar := gocv.NewWindow("Trackbar Window")
+	defer windowForTrackbar.Close()
+
 	trackbarR := windowForTrackbar.CreateTrackbar("R", 255)
 	trackbarG := windowForTrackbar.CreateTrackbar("G", 255)
 	trackbarB := windowForTrackbar.CreateTrackbar("B", 255)
@@ -41,6 +43,4 @@ func main() {
 			break
 		}
 	}
-
-	windowForTrackbar.Close()
 }
