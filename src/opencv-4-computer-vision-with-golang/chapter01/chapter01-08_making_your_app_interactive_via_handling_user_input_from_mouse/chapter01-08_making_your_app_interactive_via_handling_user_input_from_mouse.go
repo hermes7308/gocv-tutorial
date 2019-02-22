@@ -1,7 +1,6 @@
 package main
 
 import (
-	"C"
 	"gocv.io/x/gocv"
 	"log"
 )
