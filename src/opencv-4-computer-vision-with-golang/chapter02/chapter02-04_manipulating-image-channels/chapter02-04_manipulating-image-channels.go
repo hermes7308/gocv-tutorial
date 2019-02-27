@@ -43,20 +43,12 @@ func main() {
 			image[index], image[index+2] = image[index+2], image[index]
 
 			// blue scale
-			clipValueForBlue := float32(image[index]) * 0.9
-			if clipValueForBlue > 1 {
-				image[index] = 1
-			} else {
-				image[index] = 0
-			}
+			scaleForBlue := float32(image[index]) * 0.9
+			image[index] = uint8(scaleForBlue)
 
 			// green scale
-			clipValueForGreen := float32(image[index+1]) * 1.1
-			if clipValueForGreen > 1 {
-				image[index+1] = 1
-			} else {
-				image[index+1] = 0
-			}
+			scaleForGreen := float32(image[index+1]) * 1.1
+			image[index] = uint8(scaleForGreen)
 		}
 	}
 
