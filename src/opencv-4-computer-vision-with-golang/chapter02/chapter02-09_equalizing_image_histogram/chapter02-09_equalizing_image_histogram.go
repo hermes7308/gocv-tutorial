@@ -17,15 +17,20 @@ func main() {
 		return
 	}
 
-	windowForGrey := gocv.NewWindow("Original grey")
-	defer windowForGrey.Close()
-	windowForGrey.IMShow(originalMat)
+	// grey equalizeHist
+	greyEqualizeHistMat := gocv.NewMat()
+	gocv.EqualizeHist(originalMat, &greyEqualizeHistMat)
 
-	originalImage := originalMat.ToBytes()
+	windowForGreyEqualizeHist := gocv.NewWindow("Window For Grey EqualizeHist")
+	defer windowForGreyEqualizeHist.Close()
+	windowForGreyEqualizeHist.IMShow(greyEqualizeHistMat)
 
-	v := make(plotter.Values, len(originalImage))
+	// plot
+	greyEqualizeHistImage := greyEqualizeHistMat.ToBytes()
+
+	v := make(plotter.Values, len(greyEqualizeHistImage))
 	for i := 0; i < len(v); i++ {
-		v[i] = float64(originalImage[i])
+		v[i] = float64(greyEqualizeHistImage[i])
 	}
 
 	plot, err := plot.New()
@@ -34,7 +39,7 @@ func main() {
 		return
 	}
 
-	plot.Title.Text = fmt.Sprintf("Histogram of a %s", "Grey Image")
+	plot.Title.Text = fmt.Sprintf("pixel value")
 
 	histogram, err := plotter.NewHist(v, len(v))
 	if err != nil {
@@ -43,10 +48,9 @@ func main() {
 	}
 
 	histogram.Normalize(1)
-
 	plot.Add(histogram)
 
-	if err := plot.Save(4*vg.Inch, 4*vg.Inch, "histogram_for_image.png"); err != nil {
+	if err := plot.Save(4*vg.Inch, 4*vg.Inch, "pixel_value.png"); err != nil {
 		log.Panic(err)
 		return
 	}

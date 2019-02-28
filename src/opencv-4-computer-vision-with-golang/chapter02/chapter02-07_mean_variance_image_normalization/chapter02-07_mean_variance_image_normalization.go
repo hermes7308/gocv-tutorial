@@ -1,13 +1,12 @@
 package main
 
 import (
-	"fmt"
 	"gocv.io/x/gocv"
-	"gonum.org/v1/plot"
-	"gonum.org/v1/plot/plotter"
-	"gonum.org/v1/plot/vg"
 	"log"
+	"math"
 )
+
+type Image []float32
 
 func main() {
 	imageFilePath := "../../data/Lena.png"
@@ -17,46 +16,68 @@ func main() {
 		return
 	}
 
-	windowForGrey := gocv.NewWindow("Original grey")
-	defer windowForGrey.Close()
-	windowForGrey.IMShow(originalMat)
-
 	originalImage := originalMat.ToBytes()
-
-	v := make(plotter.Values, len(originalImage))
-	for i := 0; i < len(v); i++ {
-		v[i] = float64(originalImage[i])
+	targetImage := make(Image, len(originalImage))
+	for i := 0; i < len(targetImage); i++ {
+		targetImage[i] = float32(originalImage[i]) / 255
 	}
 
-	plot, err := plot.New()
-	if err != nil {
-		log.Println("Can not create plot", err)
-		return
+	targetImage.zeroAverageMatrix()
+	log.Println(targetImage)
+
+	targetImage.dispersionMatrix()
+	log.Println(targetImage)
+}
+
+func (image *Image) zeroAverageMatrix() {
+	average := image.average()
+
+	for i := 0; i < len(*image); i++ {
+		(*image)[i] = (*image)[i] - average
+	}
+}
+
+func (image *Image) dispersionMatrix() {
+	average := image.average()
+	tempImage := image.clone()
+	length := len(tempImage)
+
+	for i := 0; i < length; i++ {
+		tempImage[i] = float32(math.Pow(float64(tempImage[i]-average), 2))
 	}
 
-	plot.Title.Text = fmt.Sprintf("Histogram of a %s", "Grey Image")
+	sum := tempImage.sum()
 
-	histogram, err := plotter.NewHist(v, len(v))
-	if err != nil {
-		log.Panic("Can not create histogram", err)
-		return
+	standardDeviation := sum / float32(length-1)
+
+	for i := 0; i < length; i++ {
+		(*image)[i] = (*image)[i] / standardDeviation
+	}
+}
+
+func (image Image) sum() float32 {
+	length := len(image)
+	var sum float32 = 0
+	for i := 0; i < length; i++ {
+		sum = sum + image[i]
 	}
 
-	histogram.Normalize(1)
+	return sum
+}
 
-	plot.Add(histogram)
+func (image Image) average() float32 {
+	length := len(image)
+	sum := image.sum()
 
-	if err := plot.Save(4*vg.Inch, 4*vg.Inch, "histogram_for_image.png"); err != nil {
-		log.Panic(err)
-		return
+	return sum / float32(length)
+}
+
+func (image Image) clone() Image {
+	length := len(image)
+	cloneImage := make([]float32, length)
+	for i := 0; i < length; i++ {
+		cloneImage[i] = image[i]
 	}
 
-	// wait
-	for {
-		key := gocv.WaitKey(3)
-		if key == 27 {
-			log.Println("Pressed ESC")
-			break
-		}
-	}
+	return cloneImage
 }
